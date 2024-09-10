@@ -1,7 +1,7 @@
-import "./App.css";
+import Flow from "./components/Flow";
 
 function App() {
-  return <></>;
+  return <div>{<Flow />}</div>;
 }
 
 export default App;
