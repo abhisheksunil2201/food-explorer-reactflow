@@ -2,7 +2,6 @@ import { Handle, Position } from "@xyflow/react";
 import {
   CookieIcon,
   DoubleArrowRightIcon,
-  SizeIcon,
   ViewVerticalIcon,
 } from "@radix-ui/react-icons";
 import IngredientsIcon from "../../assets/ingredients.png";
