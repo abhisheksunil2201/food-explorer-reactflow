@@ -85,7 +85,7 @@ export default function Flow() {
           const categoryNodes = categories
             .slice(0, 5)
             .map((category: any, index: number) => ({
-              id: `category-${nodeId}-${index}`,
+              id: `category-${nodeId}-${crypto.randomUUID()}`,
               type: "category",
               data: { label: category.strCategory },
               position: {
@@ -97,7 +97,7 @@ export default function Flow() {
           setEdges((prevEdges) => [
             ...prevEdges,
             ...categoryNodes.map((categoryNode: any) => ({
-              id: `edge-${nodeId}-${categoryNode.id}`,
+              id: `edge-${nodeId}-${categoryNode.id}-${crypto.randomUUID()}`,
               source: nodeId,
               target: categoryNode.id,
             })),
@@ -119,7 +119,7 @@ export default function Flow() {
           setEdges((prevEdges) => [
             ...prevEdges,
             {
-              id: `edge-${nodeId}-${optionNode.id}`,
+              id: `edge-${nodeId}-${optionNode.id}-${crypto.randomUUID()}`,
               source: nodeId,
               target: optionNode.id,
             },
@@ -136,7 +136,7 @@ export default function Flow() {
               .slice(0, 5)
               .map(
                 (meal: { strMeal: string; idMeal: string }, index: number) => ({
-                  id: `meal-${nodeId}-${index}`,
+                  id: `meal-${nodeId}-${crypto.randomUUID()}`,
                   type: "meal",
                   data: { label: meal.strMeal, mealId: meal.idMeal },
                   position: {
@@ -149,7 +149,7 @@ export default function Flow() {
             setEdges((prevEdges) => [
               ...prevEdges,
               ...mealNodes.map((mealNode: any) => ({
-                id: `edge-${nodeId}-${mealNode.id}`,
+                id: `edge-${nodeId}-${mealNode.id}-${crypto.randomUUID()}`,
                 source: nodeId,
                 target: mealNode.id,
               })),
@@ -161,7 +161,7 @@ export default function Flow() {
           } else if (node.data.label === "View Ingredients") {
             const ingredients = node.data.ingredients || [];
             const ingredientNodes = ingredients.map((ingredient, index) => ({
-              id: `ingredient-${nodeId}-${index}`,
+              id: `ingredient-${nodeId}-${crypto.randomUUID()}`,
               type: "entity",
               data: { label: ingredient },
               position: {
@@ -173,7 +173,9 @@ export default function Flow() {
             setEdges((prevEdges) => [
               ...prevEdges,
               ...ingredientNodes.map((ingredientNode) => ({
-                id: `edge-${nodeId}-${ingredientNode.id}`,
+                id: `edge-${nodeId}-${
+                  ingredientNode.id
+                }-${crypto.randomUUID()}`,
                 source: nodeId,
                 target: ingredientNode.id,
               })),
@@ -194,7 +196,7 @@ export default function Flow() {
           ];
 
           const optionNodes = mealOptions.map((option, index) => ({
-            id: `option-${nodeId}-${option.label}`,
+            id: `option-${nodeId}-${option.label}-${crypto.randomUUID()}`,
             type: "option",
             data: { label: option.label, ...option.data },
             position: {
@@ -206,7 +208,7 @@ export default function Flow() {
           setEdges((prevEdges) => [
             ...prevEdges,
             ...optionNodes.map((optionNode) => ({
-              id: `edge-${nodeId}-${optionNode.id}`,
+              id: `edge-${nodeId}-${optionNode.id}-${crypto.randomUUID()}`,
               source: nodeId,
               target: optionNode.id,
             })),
@@ -217,16 +219,19 @@ export default function Flow() {
         case "entity": {
           if (node.id.startsWith("ingredient-")) {
             const optionNode = {
-              id: `option-${nodeId}`,
+              id: `option-${nodeId}-${crypto.randomUUID()}`,
               type: "option",
               data: { label: "View Meals", ingredient: node.data.label },
-              position: { x: node.position.x, y: node.position.y + 50 },
+              position: {
+                x: node.position.x + 250,
+                y: node.position.y,
+              },
             };
             setNodes((prevNodes) => [...prevNodes, optionNode]);
             setEdges((prevEdges) => [
               ...prevEdges,
               {
-                id: `edge-${nodeId}-${optionNode.id}`,
+                id: `edge-${nodeId}-${optionNode.id}-${crypto.randomUUID()}`,
                 source: nodeId,
                 target: optionNode.id,
               },
