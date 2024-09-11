@@ -12,7 +12,7 @@ interface SidebarProps {
     strMealThumb: string;
     strInstructions: string;
     ingredients: string[];
-    strTags: string[];
+    strTags?: string[];
     strCategory?: string;
     strArea?: string;
     strYoutube?: string;
@@ -36,7 +36,7 @@ export default function Sidebar({ meal, onClose }: SidebarProps) {
         className="w-full rounded-lg mb-4"
       />
 
-      {meal.strTags.length > 0 && (
+      {meal.strTags && meal.strTags.length > 0 && (
         <div className="mb-4">
           <h3 className="text-lg font-semibold mb-2 flex items-center">
             Tags:

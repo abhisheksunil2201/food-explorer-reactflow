@@ -18,7 +18,12 @@ import CategoryNode from "./nodes/CategoryNode";
 import MealNode from "./nodes/MealNode";
 import OptionNode from "./nodes/OptionNode";
 import EntityNode from "./nodes/EntityNode";
-import { fetchCategories, fetchMealDetails, fetchMeals } from "../api";
+import {
+  fetchCategories,
+  fetchMealDetails,
+  fetchMeals,
+  fetchMealsByIngredient,
+} from "../api";
 import Sidebar from "./Sidebar";
 
 const initialNodes: Node[] = [
@@ -68,6 +73,7 @@ export default function Flow() {
         ingredients?: string[];
         tags?: string[];
         mealId?: string;
+        ingredient?: string;
       }>
     ) => {
       const nodeId = node.id;
@@ -123,7 +129,9 @@ export default function Flow() {
 
         case "option":
           if (node.data.label === "View Meals") {
-            const meals = await fetchMeals(node.data.category || "");
+            const meals = node.data.category
+              ? await fetchMeals(node.data.category || "")
+              : await fetchMealsByIngredient(node.data.ingredient || "");
             const mealNodes = meals
               .slice(0, 5)
               .map(
@@ -147,14 +155,29 @@ export default function Flow() {
               })),
             ]);
           } else if (node.data.label === "View Details") {
-            console.log(node.data);
-
             const mealDetails = await fetchMealDetails(node.data.mealId || "");
-
             setSelectedMeal(mealDetails);
             setShowSidebar(true);
           } else if (node.data.label === "View Ingredients") {
-            console.log("view");
+            const ingredients = node.data.ingredients || [];
+            const ingredientNodes = ingredients.map((ingredient, index) => ({
+              id: `ingredient-${nodeId}-${index}`,
+              type: "entity",
+              data: { label: ingredient },
+              position: {
+                x: node.position.x + 300,
+                y: node.position.y + index * 60 - 80,
+              },
+            }));
+            setNodes((prevNodes) => [...prevNodes, ...ingredientNodes]);
+            setEdges((prevEdges) => [
+              ...prevEdges,
+              ...ingredientNodes.map((ingredientNode) => ({
+                id: `edge-${nodeId}-${ingredientNode.id}`,
+                source: nodeId,
+                target: ingredientNode.id,
+              })),
+            ]);
           }
           break;
 
@@ -188,6 +211,27 @@ export default function Flow() {
               target: optionNode.id,
             })),
           ]);
+          break;
+        }
+
+        case "entity": {
+          if (node.id.startsWith("ingredient-")) {
+            const optionNode = {
+              id: `option-${nodeId}`,
+              type: "option",
+              data: { label: "View Meals", ingredient: node.data.label },
+              position: { x: node.position.x, y: node.position.y + 50 },
+            };
+            setNodes((prevNodes) => [...prevNodes, optionNode]);
+            setEdges((prevEdges) => [
+              ...prevEdges,
+              {
+                id: `edge-${nodeId}-${optionNode.id}`,
+                source: nodeId,
+                target: optionNode.id,
+              },
+            ]);
+          }
           break;
         }
 

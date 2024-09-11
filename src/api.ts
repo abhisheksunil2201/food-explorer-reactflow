@@ -31,6 +31,22 @@ export async function fetchMeals(category: string) {
   }
 }
 
+export async function fetchMealsByIngredient(ingredient: string) {
+  try {
+    const response = await fetch(
+      `https://www.themealdb.com/api/json/v1/1/filter.php?i=${ingredient}`
+    );
+    if (!response.ok) {
+      throw new Error(`Response status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    return data.meals.splice(0, 6);
+  } catch (error: any) {
+    console.error(error.message);
+  }
+}
+
 export async function fetchMealDetails(mealId: string) {
   try {
     const response = await fetch(
@@ -45,9 +61,8 @@ export async function fetchMealDetails(mealId: string) {
     const ingredients = [];
     for (let i = 1; i < 6; i++) {
       const ingredient = data[`strIngredient${i}`];
-      const measure = data[`strMeasure${i}`];
       if (ingredient) {
-        ingredients.push(measure ? `${measure} ${ingredient}` : ingredient);
+        ingredients.push(ingredient);
       }
     }
 
