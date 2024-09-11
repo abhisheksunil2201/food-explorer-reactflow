@@ -23,9 +23,9 @@ interface SidebarProps {
 
 export default function Sidebar({ meal, onClose }: SidebarProps) {
   return (
-    <div className="fixed right-0 top-0 h-full bg-white shadow-2xl p-4 w-[35rem] overflow-y-auto">
+    <div className="fixed right-0 top-0 h-full bg-white shadow-2xl p-8 w-[35rem] overflow-y-auto font-mono">
       <div className="flex justify-between items-center mb-4">
-        <h2 className="text-xl font-bold">{meal.strMeal}</h2>
+        <h2 className="text-2xl font-semibold font-mono">{meal.strMeal}</h2>
         <button onClick={onClose} className="text-gray-500 hover:text-gray-700">
           <Cross2Icon className="h-6 w-6" />
         </button>

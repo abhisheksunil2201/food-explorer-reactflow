@@ -9,7 +9,7 @@ interface CategoryNodeProps {
 
 export default function CategoryNode({ data }: CategoryNodeProps) {
   return (
-    <div className="bg-blue-100 border rounded border-blue-300 shadow-2xl p-2 flex items-center gap-2 w-40">
+    <div className="bg-purple-100 border rounded border-purple-200 shadow-2xl p-2 flex items-center gap-2 w-40 font-mono">
       <Handle type="target" position={Position.Left} />
       <HobbyKnifeIcon className="h-4 w-4" />
       <span>{data.label}</span>

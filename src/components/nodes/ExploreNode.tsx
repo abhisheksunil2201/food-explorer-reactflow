@@ -5,7 +5,7 @@ type ExploreNode = Node<{ number: number }, "explore">;
 
 export default function ExploreNode() {
   return (
-    <div className="bg-white border rounded border-b-2 shadow-2xl p-4 flex items-center gap-3 w-40">
+    <div className="bg-white border rounded border-b-2 shadow-2xl p-4 flex items-center gap-3 w-40 font-mono">
       <GlobeIcon className="h-6 w-6" />
       Explore
       <Handle type="source" position={Position.Right} />

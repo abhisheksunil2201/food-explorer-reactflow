@@ -30,7 +30,7 @@ const NodeImage = ({ label }: { label: string }) => {
 
 export default function OptionNode({ data }: OptionNodeProps) {
   return (
-    <div className="bg-white border rounded shadow-2xl border-b-2 p-2 flex items-center gap-2 w-60">
+    <div className="bg-white border rounded shadow-2xl border-b-2 p-2 flex items-center gap-2 w-60 font-mono">
       <Handle type="target" position={Position.Left} />
       <NodeImage label={data.label} />
       <span>{data.label}</span>

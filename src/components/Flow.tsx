@@ -140,7 +140,7 @@ export default function Flow() {
                   type: "meal",
                   data: { label: meal.strMeal, mealId: meal.idMeal },
                   position: {
-                    x: node.position.x + 200,
+                    x: node.position.x + 400,
                     y: node.position.y + index * 60 - 80,
                   },
                 })
@@ -248,7 +248,7 @@ export default function Flow() {
   );
 
   return (
-    <div style={{ height: "100vh", width: "100vw" }}>
+    <div className="h-full w-full">
       <ReactFlow
         nodes={nodes}
         edges={edges}
